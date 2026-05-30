@@ -1,0 +1,11 @@
+{
+  "name": "local-mccavity",
+  "owner": { "name": "Henning Halfpap" },
+  "plugins": [
+    {
+      "name": "paperless-bulk-plugin",
+      "source": "..",
+      "description": "Inbox-Triage + Bulk-Operations Skills for Paperless-ngx"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "name": "paperless-bulk-plugin",
+  "version": "1.0.0",
+  "description": "Inbox-Triage + Bulk-Operations Skills for Paperless-ngx, powered by the paperless-bulk MCP server",
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Paperless Bulk"
+  }
+}
