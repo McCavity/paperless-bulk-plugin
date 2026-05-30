@@ -8,23 +8,30 @@ Claude-Code- und Codex-Plugin, das den `paperless-bulk-mcp`-Server um drei Workf
 
 Das Plugin ist das Artefakt für Unit 3 (Plugins) des Hugging Face Context Course — siehe [04-projects/context-course/unit3-plugins-notes.md im KI-OS-Vault](../../ki-os/04-projects/context-course/unit3-plugins-notes.md) für die Lern-Rückblicke.
 
-## Repo-Strukur
+## Repo-Struktur (Marketplace-Layout)
+
+Dieses Repo dient als CC-Marketplace **und** enthält das Plugin in Sub-Verzeichnis. Marketplace-Konvention nach [docs.claude.com](https://docs.claude.com/en/docs/claude-code/plugin-marketplaces) verlangt:
+
+- `.claude-plugin/marketplace.json` am Marketplace-Root
+- `source` jeder Plugin-Entry mit `./` beginnend und relativ zum Marketplace-Root
+- Plugin-Files in Sub-Verzeichnis (`plugins/<name>/`)
 
 ```
-paperless-bulk-plugin/
-├── .claude-plugin/plugin.json     # CC-Manifest (nur Identitäts-Metadaten)
-├── .codex-plugin/plugin.json      # Codex-Manifest (mit interface.displayName)
-├── .mcp.json                      # gemeinsame MCP-Server-Referenz (Env-Vars)
-├── skills/
-│   ├── check-inbox/SKILL.md
-│   ├── categorize-inbox-batch/SKILL.md
-│   └── bulk-retag/SKILL.md
-├── example/
-│   └── marketplace.json           # lokale Test-Installation
+paperless-bulk-plugin/                     # Marketplace-Root
+├── .claude-plugin/
+│   └── marketplace.json                   # Marketplace-Catalog (zeigt auf ./plugins/paperless-bulk-plugin)
+├── plugins/
+│   └── paperless-bulk-plugin/             # Plugin-Verzeichnis (gecached bei Install)
+│       ├── .claude-plugin/plugin.json     # CC-Manifest
+│       ├── .codex-plugin/plugin.json      # Codex-Manifest
+│       ├── .mcp.json                      # MCP-Server-Referenz
+│       └── skills/{check-inbox,categorize-inbox-batch,bulk-retag}/SKILL.md
 ├── README.md
-├── LICENSE                        # MIT
+├── LICENSE                                # MIT
 └── CLAUDE.md (diese Datei)
 ```
+
+**Schema-Falle vermerkt:** `source: ".."` und ein flaches `example/`-Layout (wie ursprünglich aufgesetzt nach dem HF-Course-Schema) sind in CC 2.1.x invalid (Fehler: „source type your Claude Code version does not support"). Spec-konform ist ausschließlich `./<relative-path>` auf Sub-Verzeichnisse innerhalb des Marketplace-Roots — kein `../`.
 
 ## Solo-Maintainer-Konventionen
 

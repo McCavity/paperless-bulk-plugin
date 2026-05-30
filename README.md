@@ -4,6 +4,22 @@ Claude-Code- und Codex-Plugin, das den [paperless-bulk-mcp](https://github.com/M
 
 Das Plugin ist die strukturierte Antwort auf die Beobachtung aus Unit 3 des [Hugging Face Context Course](https://huggingface.co/learn/context-course): *Skills beschreiben wie und wann, MCP-Server liefern was — Plugins bringen beide Welten so zusammen, dass Discovery automatisch greift, ohne dass der Nutzer den MCP explizit aufrufen muss.*
 
+## Repo-Layout
+
+Dieses Repo dient gleichzeitig als **Marketplace** und enthält **ein Plugin**:
+
+```
+paperless-bulk-plugin/                     # Marketplace-Root
+├── .claude-plugin/
+│   └── marketplace.json                   # Marketplace-Catalog
+└── plugins/
+    └── paperless-bulk-plugin/             # Plugin-Verzeichnis
+        ├── .claude-plugin/plugin.json     # Claude-Code-Manifest
+        ├── .codex-plugin/plugin.json      # Codex-Manifest
+        ├── .mcp.json                      # MCP-Server-Referenz
+        └── skills/...
+```
+
 ## Bundled Skills
 
 | Skill | Trigger | MCP-Tools |
@@ -32,18 +48,27 @@ Alternativ: wenn der `paperless-bulk` Server bereits in `~/.mcp.json` registrier
 
 ## Installation in Claude Code
 
+Lokal (Repo gecloned):
+
 ```text
-/plugin marketplace add /absoluter/pfad/marketplace.json
-/plugin install paperless-bulk-plugin@local-mccavity
+/plugin marketplace add ~/git/projects/own/paperless-bulk-plugin
+/plugin install paperless-bulk-plugin@mccavity
 ```
 
-Eine `marketplace.json`-Beispiel liegt im [`example/`](./example/)-Verzeichnis.
+Direkt vom GitHub (kein lokaler Clone nötig):
+
+```text
+/plugin marketplace add McCavity/paperless-bulk-plugin
+/plugin install paperless-bulk-plugin@mccavity
+```
+
+Marketplace-Name ist `mccavity` (gemäß `.claude-plugin/marketplace.json`).
 
 ## Installation in Codex
 
 ```bash
 mkdir -p ~/.codex/plugins
-cp -R /absoluter/pfad/paperless-bulk-plugin ~/.codex/plugins/paperless-bulk-plugin
+cp -R /absoluter/pfad/paperless-bulk-plugin/plugins/paperless-bulk-plugin ~/.codex/plugins/paperless-bulk-plugin
 ```
 
 Dann `~/.agents/plugins/marketplace.json` um diesen Eintrag erweitern und Codex neu starten.
