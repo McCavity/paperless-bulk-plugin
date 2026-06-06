@@ -8,30 +8,27 @@ Claude-Code- und Codex-Plugin, das den `paperless-bulk-mcp`-Server um drei Workf
 
 Das Plugin ist das Artefakt für Unit 3 (Plugins) des Hugging Face Context Course — siehe [04-projects/context-course/unit3-plugins-notes.md im KI-OS-Vault](../../ki-os/04-projects/context-course/unit3-plugins-notes.md) für die Lern-Rückblicke.
 
-## Repo-Struktur (Marketplace-Layout)
+## Repo-Struktur (reines Plugin-Repo)
 
-Dieses Repo dient als CC-Marketplace **und** enthält das Plugin in Sub-Verzeichnis. Marketplace-Konvention nach [docs.claude.com](https://docs.claude.com/en/docs/claude-code/plugin-marketplaces) verlangt:
-
-- `.claude-plugin/marketplace.json` am Marketplace-Root
-- `source` jeder Plugin-Entry mit `./` beginnend und relativ zum Marketplace-Root
-- Plugin-Files in Sub-Verzeichnis (`plugins/<name>/`)
+Dieses Repo enthält **nur das Plugin** in `plugins/<name>/` — es hostet **keinen** eigenen Marketplace mehr (seit 2026-06-06). Distribution läuft über den gemeinsamen `mccavity`-Hub [claude-marketplace](https://github.com/McCavity/claude-marketplace), der dieses Plugin via `git-subdir` aus `plugins/paperless-bulk-plugin/` zieht.
 
 ```
-paperless-bulk-plugin/                     # Marketplace-Root
-├── .claude-plugin/
-│   └── marketplace.json                   # Marketplace-Catalog (zeigt auf ./plugins/paperless-bulk-plugin)
+paperless-bulk-plugin/
 ├── plugins/
 │   └── paperless-bulk-plugin/             # Plugin-Verzeichnis (gecached bei Install)
 │       ├── .claude-plugin/plugin.json     # CC-Manifest
 │       ├── .codex-plugin/plugin.json      # Codex-Manifest
-│       ├── .mcp.json                      # MCP-Server-Referenz
+│       ├── .mcp.json                      # MCP-Backend-Referenz (skills-only; Server als Template)
 │       └── skills/{check-inbox,categorize-inbox-batch,bulk-retag}/SKILL.md
 ├── README.md
 ├── LICENSE                                # MIT
 └── CLAUDE.md (diese Datei)
 ```
 
-**Schema-Falle vermerkt:** `source: ".."` und ein flaches `example/`-Layout (wie ursprünglich aufgesetzt nach dem HF-Course-Schema) sind in CC 2.1.x invalid (Fehler: „source type your Claude Code version does not support"). Spec-konform ist ausschließlich `./<relative-path>` auf Sub-Verzeichnisse innerhalb des Marketplace-Roots — kein `../`.
+**Marketplace-Lektionen (2026-06-06):**
+- Ein Marketplace-`name` ist **pro Nutzer eindeutig** — ein zweites `add` mit gleichem Namen ersetzt das erste. Früher hatten paperless- UND iobroker-plugin je eine `marketplace.json` namens `mccavity` → sie verdrängten sich gegenseitig. Fix: ein Hub-Repo, beide Plugins via `git-subdir` (`{ "source": "git-subdir", "url": "McCavity/<repo>", "path": "plugins/<name>" }`).
+- `source: ".."` und flache `example/`-Layouts sind in CC 2.1.x invalid (Fehler: „source type your Claude Code version does not support").
+- Plugin-`.mcp.json` **skills-only** halten, wenn der Server schon user-scope registriert ist — sonst „Missing environment variables" / Doppelregistrierung beim Plugin-Load.
 
 ## Solo-Maintainer-Konventionen
 

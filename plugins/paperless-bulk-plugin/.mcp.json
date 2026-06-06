@@ -1,5 +1,7 @@
 {
-  "mcpServers": {
+  "_README": "Skills-only by default: this plugin contributes the skills and uses whichever paperless-bulk MCP server you ALREADY have registered (e.g. a user-scope `paperless-bulk` entry in ~/.claude.json / ~/.mcp.json). There is intentionally no active `mcpServers` block here, so installing the plugin never double-registers or fails on missing env vars. To bundle the server WITH the plugin instead, copy the template below up into a top-level \"mcpServers\" key and provide the env vars. See README.",
+
+  "_template_bundled_server": {
     "paperless-bulk": {
       "command": "python3",
       "args": ["-m", "paperless_bulk_mcp"],
