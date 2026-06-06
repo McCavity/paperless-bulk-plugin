@@ -28,21 +28,18 @@ paperless-bulk-plugin/
 
 ## MCP-Voraussetzung
 
-Das Plugin enthält keinen Server-Code — es referenziert den `paperless-bulk-mcp`-Server in `.mcp.json` per Modul-Import (`python3 -m paperless_bulk_mcp`).
+Das Plugin enthält **keinen Server-Code** und registriert standardmäßig **keinen** MCP-Server — es ist **skills-only** und nutzt den `paperless-bulk`-Server, den du **bereits registriert** hast (z.B. user-scope in `~/.claude.json` / `~/.mcp.json`). So scheitert die Installation nie an fehlenden Env-Vars oder doppelter Registrierung.
 
-### Setup
+### Setup (nur falls noch kein `paperless-bulk`-Server registriert ist)
+
+Server installieren und das Template aus [`.mcp.json`](plugins/paperless-bulk-plugin/.mcp.json) in einen Top-Level-`mcpServers`-Block kopieren (Plugin-`.mcp.json` ODER user-scope), dann die Env-Vars setzen:
 
 ```bash
-# 1. paperless-bulk-mcp installieren (pip-Installation aus dem Repo)
 pip install git+https://github.com/McCavity/paperless-bulk-mcp.git
-
-# 2. Env-Vars setzen (im Shell-Profil oder per Plugin-Loader)
 export PAPERLESS_BASE_URL="https://your-paperless.example/api"
 export PAPERLESS_TOKEN="..."
 export PAPERLESS_INBOX_TAG_ID="123"  # optional, sonst Name-Lookup
 ```
-
-Alternativ: wenn der `paperless-bulk` Server bereits in `~/.mcp.json` registriert ist, kommentiere die `.mcp.json`-Sektion dieses Plugins aus — das Plugin reicht dann nur die Skills nach.
 
 ## Installation in Claude Code
 
