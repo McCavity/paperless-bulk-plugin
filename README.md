@@ -6,12 +6,10 @@ Das Plugin ist die strukturierte Antwort auf die Beobachtung aus Unit 3 des [Hug
 
 ## Repo-Layout
 
-Dieses Repo dient gleichzeitig als **Marketplace** und enthält **ein Plugin**:
+Reines **Plugin-Repo** — distribuiert über den gemeinsamen [mccavity-Marketplace-Hub](https://github.com/McCavity/claude-marketplace), der dieses Plugin via `git-subdir` aus `plugins/paperless-bulk-plugin/` zieht:
 
 ```
-paperless-bulk-plugin/                     # Marketplace-Root
-├── .claude-plugin/
-│   └── marketplace.json                   # Marketplace-Catalog
+paperless-bulk-plugin/
 └── plugins/
     └── paperless-bulk-plugin/             # Plugin-Verzeichnis
         ├── .claude-plugin/plugin.json     # Claude-Code-Manifest
@@ -48,21 +46,14 @@ Alternativ: wenn der `paperless-bulk` Server bereits in `~/.mcp.json` registrier
 
 ## Installation in Claude Code
 
-Lokal (Repo gecloned):
+Über den gemeinsamen `mccavity`-Marketplace-Hub ([claude-marketplace](https://github.com/McCavity/claude-marketplace)):
 
 ```text
-/plugin marketplace add ~/git/projects/own/paperless-bulk-plugin
+/plugin marketplace add McCavity/claude-marketplace
 /plugin install paperless-bulk-plugin@mccavity
 ```
 
-Direkt vom GitHub (kein lokaler Clone nötig):
-
-```text
-/plugin marketplace add McCavity/paperless-bulk-plugin
-/plugin install paperless-bulk-plugin@mccavity
-```
-
-Marketplace-Name ist `mccavity` (gemäß `.claude-plugin/marketplace.json`).
+> Dieses Repo hostet **keinen** eigenen Marketplace mehr — Marketplace-Namen sind pro Nutzer eindeutig, ein self-hosted `mccavity` würde den Hub verdrängen. Füge nur den Hub hinzu, nicht dieses Repo direkt.
 
 ## Installation in Codex
 
